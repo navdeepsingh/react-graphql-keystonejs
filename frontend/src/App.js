@@ -8,6 +8,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory'; // Cache Implementation
 
 import Home from "./components/Home";
 import Signup from "./components/Signup";
+import Category from "./components/Category";
+import Products from "./components/Products";
 import './sass/styles.scss'
 
 const httpLink = createHttpLink({
@@ -28,12 +30,10 @@ const App = () => {
       <ApolloProvider client={client}>
         <Router>
           <Switch>
-            <Route path="/join">
-              <Signup />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
+            <Route path="/enter" component={Products} />
+            <Route path="/join" component={Category} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/" component={Home} />
           </Switch>
         </Router>
       </ApolloProvider>

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from '@apollo/react-hooks';
 import gql from "graphql-tag";
 
-const Signup = () => {
+const Signup = (props) => {
 
   const fullName = React.createRef();
   const email = React.createRef();
   const mobile = React.createRef();
 
-  const [formerror, setFormError] = useState(false);
-  const [signupData, setSignupData] = useState({});
+  const [error, setError] = useState(false);
+  const [user, setUser] = useState({});
 
 
   const ADD_SIGNUP = gql`
@@ -26,17 +26,22 @@ const Signup = () => {
   async function handleSubmit() {
     try {
       const { data } = await addSignupMutation({ variables: { data: { name: fullName.current.value, email: email.current.value, mobile: mobile.current.value } } });
-      console.log(data);
-      setFormError(false)
-      setSignupData({ id: data.createSignup.id, name: data.createSignup.name, email: data.createSignup.email })
+      setError(false)
+      setUser({ id: data.createSignup.id, name: data.createSignup.name, email: data.createSignup.email })
+      setTimeout(() => {
+        props.history.push('/join')
+      }, 3000);
     }
     catch (e) {
-      setFormError(true)
+      setError(true)
+      setUser({});
     }
   }
 
   useEffect(() => {
-    document.getElementById("result").innerHTML = JSON.stringify(signupData)
+    const result = Object.keys(user).length ? "You have successfully submited the form. Redirecting now..." : ''
+    document.getElementById("result").innerHTML = result
+
   })
 
 
@@ -45,6 +50,7 @@ const Signup = () => {
     <>
       <h2>JOIN</h2>
       <div id="result"></div>
+      {error ? 'Error in submitting' : ''}
       <form
         onSubmit={e => {
           e.preventDefault();
