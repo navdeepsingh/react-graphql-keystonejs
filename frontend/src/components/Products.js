@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 import gql from "graphql-tag";
 
@@ -38,6 +39,8 @@ const Products = () => {
           </ul>
           : ''
       }
+
+      <Link to="/guess">I'M READY TO GUESS</Link>
     </>
   )
 }

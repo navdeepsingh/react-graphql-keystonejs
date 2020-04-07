@@ -13,6 +13,7 @@ import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Category from "./components/Category";
 import Products from "./components/Products";
+import Guess from "./components/Guess";
 import './sass/styles.scss'
 
 const httpLink = createHttpLink({
@@ -37,6 +38,7 @@ const App = () => {
         <Router>
           <Context.Provider value={{ state, dispatch }}>
             <Switch>
+              <Route path="/guess" component={Guess} />
               <Route path="/enter" component={Products} />
               <Route path="/join" component={Category} />
               <Route path="/signup" component={Signup} />
