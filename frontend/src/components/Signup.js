@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useMutation } from '@apollo/react-hooks';
 import gql from "graphql-tag";
+import Context from "../context";
 
 const Signup = (props) => {
 
@@ -9,8 +10,7 @@ const Signup = (props) => {
   const mobile = React.createRef();
 
   const [error, setError] = useState(false);
-  const [user, setUser] = useState({});
-
+  const { state, dispatch } = useContext(Context);
 
   const ADD_SIGNUP = gql`
     mutation createSignup($data: SignupCreateInput!){
@@ -26,20 +26,19 @@ const Signup = (props) => {
   async function handleSubmit() {
     try {
       const { data } = await addSignupMutation({ variables: { data: { name: fullName.current.value, email: email.current.value, mobile: mobile.current.value } } });
+      dispatch({ type: "ADD_USER", payload: data.createSignup })
       setError(false)
-      setUser({ id: data.createSignup.id, name: data.createSignup.name, email: data.createSignup.email })
       setTimeout(() => {
         props.history.push('/join')
       }, 3000);
     }
     catch (e) {
       setError(true)
-      setUser({});
     }
   }
 
   useEffect(() => {
-    const result = Object.keys(user).length ? "You have successfully submited the form. Redirecting now..." : ''
+    const result = Object.keys(state.user).length ? "You have successfully submited the form. Redirecting now..." : ''
     document.getElementById("result").innerHTML = result
 
   })

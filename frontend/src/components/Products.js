@@ -21,6 +21,7 @@ const Products = () => {
   const { data, loading, error } = useQuery(query);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
+
   const listItems = data.Merchant.productList.map((product) =>
     <li key={product.id}>{product.name}</li>
   );
